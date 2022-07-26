@@ -195,7 +195,7 @@ jobs:
             cat inventory.txt
             aws ec2 describe-instances \
             --query 'Reservations[*].PublicIpAddress' \
-            --output text --filter Name-tag:Name,Values-backend-${CIRCLE_WORKFLOW_ID:0:7} >> inventory.txt
+            --output text --filter Name-tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7} >> inventory.txt
             cat inventory.txt
             # export BACKEND_IP=$(aws ec2 describe-instance) \
             # --query 'Reservations[*].Instances[*].PublicIpAddress' \
