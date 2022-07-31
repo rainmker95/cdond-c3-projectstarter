@@ -228,6 +228,8 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure
 
+
+
 configure-infrastructure:
   
   docker:
@@ -390,9 +392,9 @@ workflows:
             branches:
               only: [master]
       - configure-infrastructure:
-           requires: [configure-infrastructure]
+           requires: [deploy-infrastructure]
       - run-migrations:
-           requires: [run-infrastructure]
+           requires: [configure-infrastructure]
       # - deploy-frontend:
       #     requires: [run-migrations]
       # - deploy-backend:
