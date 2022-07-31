@@ -231,7 +231,6 @@ jobs:
 
 
 configure-infrastructure:
-  
   docker:
        # Docker image here that supports Ansible
     - image: cing/base:stable
