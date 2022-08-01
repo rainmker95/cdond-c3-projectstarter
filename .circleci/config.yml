@@ -242,16 +242,14 @@ jobs:
       - attach_workspace:
           at: ~/
       - install_ansible
-     
       - run:
           name: Configure server
           command: |
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
-      - destroy-environment
-     
-
+            - destroy-environment
+    
   run-migrations:
     docker:
       # Docker image here that supports NodeJS
@@ -273,8 +271,8 @@ jobs:
             then
               curl --insecure https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             fi
-      - destroy-environment
-      - revert-migrations
+            - destroy-environment
+            - revert-migrations
      # Here's where you will add some code to rollback on failure
 
 #   deploy-frontend:
@@ -372,28 +370,28 @@ jobs:
 #               # your code here
 #             fi
 
-workflows:
-  default:
-    jobs:
-     - build-frontend
-     - build-backend
-     - test-frontend:
-          requires: [build-frontend]
-     - test-backend:
-          requires: [build-backend]
-     - scan-backend:
-          requires: [build-backend]
-     - scan-frontend:
-          requires: [build-frontend]
-     - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
+    workflows:
+     default:
+        jobs:
+          - build-frontend
+          - build-backend
+          - test-frontend:
+               requires: [build-frontend]
+          - test-backend:
+               requires: [build-backend]
+          - scan-backend:
+               requires: [build-backend]
+          - scan-frontend:
+             requires: [build-frontend]
+          - deploy-infrastructure:
+              requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+            filters:
+             branches:
               only: [master]
-     - configure-infrastructure:
-           requires: [deploy-infrastructure]
-     - run-migrations:
-            requires: [configure-infrastructure]
+          - configure-infrastructure:
+              requires: [deploy-infrastructure]
+          - run-migrations:
+              requires: [configure-infrastructure]
       # - deploy-frontend:
       #     requires: [run-migrations]
       # - deploy-backend:
