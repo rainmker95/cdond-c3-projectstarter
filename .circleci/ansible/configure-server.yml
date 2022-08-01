@@ -22,11 +22,10 @@
       # Your code here
       become: true
       raw: test -e /usr/bin/python3 ||(apt -y update && apt install -y python)
-      changed_when: false
-
-
+      changed_when: 
+        false
   # Get the environment variables from CircleCI and add to the EC2 instance
- environment:
+  environment:
   - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"
   - TYPEORM_ENTITIES: "{{ lookup('env', 'TYPEORM_ENTITIES')}}"
   - TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST')}}"
@@ -36,7 +35,7 @@
   - TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE')}}"
   - TYPEORM_MIGRATIONS: "{{ lookup('env', 'TYPEORM_MIGRATIONS')}}"
   - TYPEORM_MIGRATIONS_DIR: "{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}"
- roles:
+  roles:
     # Your code here
     - configure-server
     # - configure-prometheus-node-reporter
