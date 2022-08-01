@@ -236,7 +236,8 @@ jobs:
       - image: cing/base:stable
     steps:
       - checkout
-      - add_ssh_keys:fingerprint:
+      - add_ssh_keys:
+          fingerprint:
             -"00:19:2b:4a:8b:0a:9c:e5:a2:89:ab:bb:28:e2:2d:7c"
       - attach_workspace:
           at: ~/
@@ -389,10 +390,10 @@ workflows:
           filters:
             branches:
               only: [master]
-    #  - configure-infrastructure:
-    #        requires: [deploy-infrastructure]
-    #  - run-migrations:
-    #        requires: [configure-infrastructure]
+     - configure-infrastructure:
+           requires: [deploy-infrastructure]
+     - run-migrations:
+            requires: [configure-infrastructure]
       # - deploy-frontend:
       #     requires: [run-migrations]
       # - deploy-backend:
